@@ -3,8 +3,7 @@
 // ============
 
 var tpl,
-	option = "<option value='{0}'>{1}</option>",
-	tr = "<tr><td>{0}<span>{1}</span></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>",
+	option = "<option value='{0}' {2}>{1}</option>",
 	defaut,
 	others,
 	ranges,
@@ -13,14 +12,13 @@ var tpl,
 	grade;
 
 
-
 // ============
 // HELPERS
 // ============
 
 function first(object) {
     for (var key in object) return key;
-}
+};
 
 function last(object) {
 	var lastKey = "";
@@ -30,7 +28,7 @@ function last(object) {
 	    }
 	}
 	return lastKey;
-}
+};
 
 Number.prototype.between = function(min, max){
 	return ((this >= min) && (this < max));
@@ -48,11 +46,6 @@ String.prototype.upperCase = function(){
 	return this.charAt(0).toUpperCase() + this.substring(1);
 };
 
-String.prototype.truncate = function (length, substitute) {
-	return this.length > (length || 30) ? this.substr(0, (length || 30)).replace(/\s$/, '') + (substitute || '…') : this.toString();
-}
-
-
 
 // ============
 // INTERFACE
@@ -61,44 +54,45 @@ String.prototype.truncate = function (length, substitute) {
 function populateTests(){
 	tpl = "";
 	for (var propertyName in lab) {
-		tpl += option.format(propertyName, propertyName.upperCase());
+		tpl += option.format(propertyName, propertyName.upperCase(), (getHash()[0] == propertyName) ? "selected" : "");
 	}
 	labtest.innerHTML = tpl;
-}
+};
+
+function populateValue(){
+	input.value = getHash()[1] || null;
+};
 
 function populateUnits(){
 
 	test = labtest.value,
 	defaut = lab[test].units.defaut,
 	others = lab[test].units.others || null,
+	selected = getHash()[2],
 	tpl = "";
 
-	tpl += option.format(defaut, units[defaut]);
+	tpl += option.format(defaut, units[defaut], (selected == defaut) ? "selected" : "");
 
 	if(others !== null){
-		othersUnits = others.match(/\d+/g); 
-
-		for (var i = 0, length = othersUnits.length; i < length; i++) {
-			tpl += option.format(othersUnits[i], units[othersUnits[i]]);
+		for (var i = 0, length = others.length; i < length; i++) {
+			tpl += option.format(others[i], units[others[i]], (selected == others[i]) ? "selected" : "");
 		}
 	}
 
 	unit.innerHTML = tpl;
-}
-
-function populateTable(){
-	tpl = "";
-	for (var prop in lab) {
-		el = lab[prop];
-		tpl += tr.format(prop.upperCase().truncate(15), " (" + units[el.units.defaut] + ")", el.grades[1] || "-", el.grades[2] || "-", el.grades[3] || "-", el.grades[4] || "-");
-	}
-	tbody.innerHTML = tpl;
-}
+};
 
 function setIndicator(value, max){
 	indicator.setAttribute("data-width", (value * 100) / max + "%");
-}
+};
 
+function setHash(){
+	window.location.hash = "!" + labtest.value + "|" + input.value + "|" + unit.value;
+};
+
+function getHash(){
+	return window.location.hash.replace("#!","").split("|");
+};
 
 
 // ============
@@ -107,12 +101,14 @@ function setIndicator(value, max){
 
 function convert(sequence, value){
 	return conversions[sequence](value);
-}
+};
 
 function check() {
 
 	test = labtest.value;
-	value = parseFloat(input.value);
+	value = parseFloat(input.value.replace(",","."));
+
+	setHash();
 			
 	grade = 0;
 
@@ -145,7 +141,7 @@ function check() {
 
 		setIndicator(grade, parseInt(last(lab[test].grades)));
 	}
-}
+};
 
 
 // ===================
@@ -153,6 +149,6 @@ function check() {
 // ===================
 
 populateTests();
+populateValue();
 populateUnits();
-populateTable();
 check();

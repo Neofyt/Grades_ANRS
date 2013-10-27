@@ -7,7 +7,8 @@ var lab = {
 			4: "-6.50"
 		},
 		units: {
-			defaut: 1
+			defaut: 1,
+			others: [2,3]
 		}
 	},
 	leucocytes: {
