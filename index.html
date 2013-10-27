@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Grades</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:300,500"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/layout.css" />
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+			
+			<h1>Calcul de grades selon l'&eacute;chelle de cotation ANRS</h1>
+	
+			<section>
+				<select id="labtest" onchange='populateUnits(); check();'></select>
+				<input id="input" type="text" placeholder="valeur" onkeyup="check();"/>
+				<select id="unit" onchange="check();"></select>
+			</section>
+
+			<section>
+				<span id="result">Merci de renseigner une valeur pour le calcul.</span>
+				<span id="container">
+					<span id="indicator"></span>
+				</span>
+			</section>
+
+			<section>
+				<span id="convs"></span>
+			</section>
+
+			<section>
+				<input type="checkbox" id="toggler"></input><label for="toggler">Consulter le tableau de calcul des grades ?</label>
+				<table>
+					<thead>
+						<tr>
+							<th>Test</th>
+							<th>Grade 1</th>
+							<th>Grade 2</th>
+							<th>Grade 3</th>
+							<th>Grade 4</th>
+						</tr>
+					</thead>
+					<tbody id="tbody"></tbody>
+				</table>
+			</section>
+
+		</div>		
+	</body>
+
+	<script src="assets/js/lab.js"></script>
+	<script src="assets/js/units.js"></script>
+	<script src="assets/js/conversions.js"></script>
+	<script src="assets/js/app.js"></script>
+
+</html>
