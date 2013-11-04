@@ -68,7 +68,7 @@ function populateUnits(){
 	test = labtest.value,
 	defaut = lab[test].units.defaut,
 	others = lab[test].units.others || null,
-	selected = getHash()[2],
+	selected = getHash()[2] || null,
 	tpl = "";
 
 	tpl += option.format(defaut, units[defaut], (selected == defaut) ? "selected" : "");
@@ -103,7 +103,7 @@ function convert(sequence, value){
 	return conversions[sequence](value);
 };
 
-function check() {
+function check(){
 
 	test = labtest.value;
 	value = parseFloat(input.value.replace(",","."));
