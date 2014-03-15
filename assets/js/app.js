@@ -112,9 +112,10 @@ function check(){
 			
 	grade = 0;
 
+	convs.innerHTML = "";
+
 	if(!value){
 		result.innerHTML = "Merci de renseigner une valeur pour le calcul.";
-		convs.innerHTML = "";
 		indicator.setAttribute("data-width", "");
 	} else {
 
